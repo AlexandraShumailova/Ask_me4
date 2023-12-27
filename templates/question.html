@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block pop_tags %}
+    {% include "layouts/tags.html" with popular_tags=popular_tags %}
+{% endblock %}
+
+{% block content %}
+
+<div class="questions-main">
+    <h1>{{ question.title }}</h1>
+</div>  
+{% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+{% endif %}
+
+{% include 'components/question-item.html' with rating=question %}
+
+{% if answers %}
+    {% for answer in answers %}
+    {% include 'components/question-answer.html' with rating=answer %}
+    {% endfor %}
+{% else %}
+<div class="questions-main">
+    <h1>No answers!</h1>
+</div> 
+{% endif %}
+
+{% include 'components/question-make-answer.html' %}
+
+{% endblock %}
+
+{% if answers %}
+    {% block bottom %}
+    {% include 'components/question-pages.html' with paginated_data=answers %}
+    {% endblock %}
+{% endif %}

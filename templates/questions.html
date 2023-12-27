@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block pop_tags %}
+    {% include "layouts/tags.html" with popular_tags=popular_tags %}
+{% endblock %}
+
+{% block content %}
+
+{% if questions %}
+    {% if notag %}
+    <div class="questions-main">
+        <h1>{{ p1 }}Questions</h1>
+    </div>
+    <h4>Also see:</h4>
+    <h4><a href="{% url 'hot' %}">Hot Questions</a></h4>
+    <h4><a href="{% url 'new' %}">New Questions</a></h4>
+    {% else %}
+    <div class="questions-main">
+        <h1>{{ p1 }}</h1>
+    </div>
+    {% endif %} 
+    {% for question in questions %}
+    {% include 'components/question-item.html' with rating=question %}
+    {% endfor %}
+{% else %}
+    <div class="questions-main">
+        <h1>No questions found.</h1>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% if questions %}
+
+{% block bottom %}
+{% include 'components/question-pages.html' with paginated_data=questions %}
+{% endblock %}
+
+{% endif %}
